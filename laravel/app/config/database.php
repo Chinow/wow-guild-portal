@@ -81,6 +81,16 @@ return array(
 			'username' => 'root',
 			'password' => '',
 			'prefix'   => '',
+		),		
+		'authbb' => array(
+			'driver'    => 'mysql',
+			'host'      => 'mysql51-130.perso',
+			'database'  => 'maximevixwmod1',
+			'username'  => 'maximevixwmod1',
+			'password'  => 'T5bK7SMT7q3C',
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
 		),
 
 	),
