@@ -17,6 +17,10 @@ Route::get('/', function()
 });
 
 Route::controller('users', 'UserController');
+Route::controller('login', 'LoginController');
+
+
+
 
 
 /*Route::get('/users', function()

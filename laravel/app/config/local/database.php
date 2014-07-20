@@ -23,7 +23,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'local',
+			'database'  => 'maximevixwmod1',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',
@@ -40,6 +40,17 @@ return array(
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
+		),
+
+		'authbb' => array(
+			'driver'    => 'mysql',
+			'host'      => 'localhost',
+			'database'  => 'maximevixwmod1',
+			'username'  => 'root',
+			'password'  => '',
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
 		),
 
 	),

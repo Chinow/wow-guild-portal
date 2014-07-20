@@ -78,4 +78,12 @@ App::down(function()
 |
 */
 
+Auth::extend('authbb', function($app) {
+    return new \Illuminate\Auth\Guard(
+	new \Chinow\AuthBB\AuthBBUserProvider(),
+	App::make('session.store')
+    );
+});
+
+
 require app_path().'/filters.php';
