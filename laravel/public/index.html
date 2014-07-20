@@ -5,23 +5,19 @@
 <title>Ember Starter Kit</title>
   <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
+<body class="container">
 
   <script type="text/x-handlebars">
   <nav class="navbar navbar-default bzt-header" role="navigation">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
+       <ul class="nav navbar-nav">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">BiZon Team</a>
-      </div
->
-      <!-- Collect the nav links, forms, and other content for toggling -->
+        <a class="navbar-brand" href="#"><span class="navbar-brand bzt-flag"></span></a>
+        <span class="navbar-brand wow-brand "> BiZon Team</span>
+      </div>
+      </ul>
+      <!-- Collect the nav links, forms, and other content for toggling
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Link</a></li>
@@ -37,49 +33,71 @@
               <li class="divider"></li>
               <li><a href="#">One more separated link</a></li>
             </ul>
-          </li>
+          </li> -->
         </ul>
-        <form class="navbar-form navbar-left" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-        {{#if isLogged}}
+
+        
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Link</a></li>
+          
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
+            {{#if isLogged}}
+            <a href="#" class="dropdown-toggle avatar-dropdown" data-toggle="dropdown"><span id="avatar" class="navbar-brand"></span> {{user.username}}<span class="caret"></span></a>
+            {{else}}
+            <a href="#" class="dropdown-toggle avatar-dropdown" data-toggle="dropdown"><span id="avatar" class="navbar-brand"></span> Connexion <span class="caret"></span></a>
+            {{/if}}
+
+            <ul class="dropdown-menu main-menu" role="menu">
               {{#if isLogged}}
               <li>{{#link-to 'add-character'}}Ajouter un personnage{{/link-to}}</li>
-              <li ><a href="#" {{action logout on="click"}}>Logout</a></li>
-              {{/if}}
               <li><a href="#">Something else here</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Separated link</a></li>
+              <li class="divider hidden-xs"></li>
+              <li ><a href="#" {{action logout on="click"}}>Déconnexion</a></li>
+              {{else}}
+              <div class="mobilde-dropdonw-menu visible-xs-block">
+                {{#if errorMessage}}
+                  <div class="alert alert-danger fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    {{errorMessage}}
+                  </div>
+                {{/if}}
+                <form class=" " {{action login on="submit"}}>
+                  {{input class="form-control" value=username type="text" placeholder="Username"}}
+                  {{input class="form-control" value=password type="password" placeholder="Password"}}
+                  {{input class="btn" type="submit" value="Log In"}}
+                </form>
+              </div>
+              <div class="hidden-xs">
+                {{#if errorMessage}}
+                  <div class="alert alert-danger fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    {{errorMessage}}
+                  </div>
+                {{/if}}
+                <form class=" " {{action login on="submit"}}>
+                  {{input class="form-control" value=username type="text" placeholder="Username"}}
+                  {{input class="form-control" value=password type="password" placeholder="Password"}}
+                  {{input class="btn" type="submit" value="Log In"}}
+                </form>
+              </div>
+              {{/if}}
             </ul>
           </li>
+
         </ul>
-        {{else}}
-        <form class="navbar-form navbar-left" {{action login on="submit"}}>
-          {{input value=username type="text" placeholder="Username"}}
-          {{input value=password type="password" placeholder="Password"}}
-          {{input class="btn" type="submit" value="Log In"}}
-        </form>
-        {{/if}}
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
 
 
-    {{#if errorMessage}}
-      <div class="alert alert-error">{{errorMessage}}</div>
-    {{/if}}
-    {{#if isLogged}}
-    <p>Bienvenue {{user.username}}</p>
-    {{/if}}
-      {{outlet}}
+
+
+      <div class="main-container">
+      {{#if isLogged}}
+      {{/if}}
+       <div class="row web-container">
+        {{outlet}}
+      </div>
+      </div>
     </div>
   </script>
 
@@ -103,7 +121,7 @@
   <script type="text/x-handlebars" data-template-name="photos">
     <h2>Photos</h2>
 
-    <div class="row">
+    <div class="row web-container">
       <ul id="photos" class="thumbnails">
         {{#each model}}
           <li class="span4">
