@@ -3,6 +3,7 @@ App.Router.map(function() {
   this.route('articles');
   this.route('photos');
   this.route('logout');
+  this.route('add-character');
 });
 
 App.ApplicationRoute = Ember.Route.extend({

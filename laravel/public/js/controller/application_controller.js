@@ -10,7 +10,6 @@ App.ApplicationController = Ember.Controller.extend({
 
       self.set('errorMessage', response.message);
         if (response.success) {
-          alert('Login succeeded!');
           self.set('token', response.user.remember_token);
           self.set('user', response.user);
 
