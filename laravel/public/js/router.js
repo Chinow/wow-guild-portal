@@ -9,6 +9,11 @@ App.Router.map(function() {
 App.ApplicationRoute = Ember.Route.extend({
   setupController: function(controller, context) {
     controller.reset();
+    $('#raid-calendar').datepicker({
+        todayBtn: true,
+        language: "fr",
+        forceParse: false
+    });
   }
 });
 

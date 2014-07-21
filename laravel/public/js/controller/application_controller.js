@@ -1,6 +1,7 @@
 App.ApplicationController = Ember.Controller.extend({
   actions: {
     login: function() {
+
       var self = this, data = this.getProperties('username', 'password');
 
       // Clear out any error messages.
@@ -46,6 +47,11 @@ App.ApplicationController = Ember.Controller.extend({
         self.set('isLogged', true);
       }
     })
+    $('#raid-calendar').datepicker({
+	    todayBtn: true,
+	    language: "fr",
+	    forceParse: false
+	});
   /*  $.get("/login/logged").then(function(response) {
           if (response)
             self.set('isLogged', true);
