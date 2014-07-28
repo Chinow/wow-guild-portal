@@ -1,2 +1,2 @@
-wow-guild-server
+wow-guild-portal
 ================
