@@ -1,3 +1,6 @@
+var $ = require("jquery"),
+		Ember = require('ember');
+		
 App.IndexView = Ember.View.extend({
   didInsertElement: function() {
     $('#raid-calendar').datepicker({

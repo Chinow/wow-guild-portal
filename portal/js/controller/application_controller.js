@@ -1,3 +1,6 @@
+var $ = require("jquery"),
+    Ember = require('ember');
+
 App.ApplicationController = Ember.Controller.extend({
   actions: {
     login: function() {
@@ -51,7 +54,7 @@ App.ApplicationController = Ember.Controller.extend({
 	    todayBtn: true,
 	    language: "fr",
 	    forceParse: false
-	});
+	   });
   /*  $.get("/login/logged").then(function(response) {
           if (response)
             self.set('isLogged', true);

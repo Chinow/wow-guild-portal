@@ -1,3 +1,5 @@
+var $ = require("jquery"),
+    Ember = require('ember');
 
 App.Router.map(function() {
   this.route('articles');

@@ -1,14 +1,8 @@
 var gulp       = require('gulp');
 var less       = require('gulp-less');
 var minifyCSS  = require('gulp-minify-css');
-//var browserify = require('gulp-browserify');
-//var handlebars = require('gulp-ember-handlebars');
-//var myth       = require('gulp-myth');
-//var hint       = require('gulp-jshint');
-//var concat     = require('gulp-concat');
-//var cache      = require('gulp-cache');
-//var gif        = require('gulp-if');
-//var uglify     = require('gulp-uglify');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 
 var BUILD_DIR = 'dist';
 var DEST = '/laravel/public';
@@ -31,7 +25,8 @@ var VENDORS_DEPS = [
     'jquery',
     'bootstrap',
     'ember',
-    'bootstrap-datepicker'
+    'bootstrap-datepicker',
+    'handlebars'
 ];
 
 function handleError(err) {
@@ -78,55 +73,23 @@ gulp.task('vendors-scripts', function() {
         .transform('deamdify')
         .transform('browserify-shim')
         .require(VENDORS_DEPS)
-        .bundle({ debug: true })
+        .bundle()
         .on('error', handleError)
         .pipe(source('vendors.js'))
-        .pipe(gulp.dest(DEST + '/js'));
+        .pipe(gulp.dest(BUILD_DIR + DEST + '/js'));
 });
 
  
-
-gulp.task('hint', function () {
-  return gulp.src('**/*.js')
-    .pipe(hint());
+gulp.task('app-scripts', function() {
+    browserify('./' + PORTAL_DIR + '/js/app.js')
+        .external(VENDORS_DEPS)
+        .transform('browserify-shim')
+        .bundle({ debug: true })
+        .on('error', handleError)
+        .pipe(source('app.js'))
+        .pipe(gulp.dest(BUILD_DIR + DEST + '/js'));
 });
 
- 
-gulp.task('scripts', ['hint', 'templates'], function () {
-  var ember = debug ? 'ember.js' : 'ember.prod.js';
-  return gulp.src('js/app.js')
-    .pipe(browserify({
-      debug: debug,
-      shim: {
-        jquery: {
-          path: 'js/libs/jquery-1.10.2.js',
-          exports: '$'
-        },
-        handlebars: {
-          path: 'js/libs/handlebars-1.1.2.js',
-          exports: 'Handlebars'
-        },
-        templates: {
-          path: 'builds/templates.js',
-          exports: 'Ember.TEMPLATES'
-        },
-        ember: {
-          path: 'js/libs/ember-1.6.1.js',
-          exports: 'ember',
-          depends: {
-            handlebars: 'Handlebars',
-            jquery: '$'
-          }
-        },
-      }
-    }))
-    .on('prebundle', function (bundle) {
-      bundle.add('../../js/libs/ember-1.6.1.js');
-      bundle.add('../../builds/templates.js');
-    })
-    .pipe(gif(!debug, uglify()))
-    .pipe(gulp.dest('builds/js'));
-});
  
 gulp.task('templates', function () {
   return gulp.src('templates/**/*.hbs')
@@ -150,7 +113,7 @@ gulp.task('styles', function () {
  
 gulp.task('default', ['styles', 'scripts'], function () { });
 
-gulp.task('build', ['copy-laravel', 'copy', 'styles-min']);
+gulp.task('build', ['copy-laravel', 'copy', 'styles-min', 'vendors-scripts', 'app-scripts']);
  
 gulp.task('watch', function () {
   gulp.watch('**/*.js', ['scripts']);
