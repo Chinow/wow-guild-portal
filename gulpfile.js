@@ -2,7 +2,8 @@ var gulp       = require('gulp');
 var less       = require('gulp-less');
 var minifyCSS  = require('gulp-minify-css');
 var browserify = require('browserify');
-var source = require('vinyl-source-stream');
+var source     = require('vinyl-source-stream');
+var handlebars = require('gulp-ember-handlebars');
 
 var BUILD_DIR = 'dist';
 var DEST = '/laravel/public';
@@ -90,19 +91,13 @@ gulp.task('app-scripts', function() {
         .pipe(gulp.dest(BUILD_DIR + DEST + '/js'));
 });
 
- 
-gulp.task('templates', function () {
-  return gulp.src('templates/**/*.hbs')
-    .pipe(cache(handlebars({
-      outputType: 'cjs',
-      templateRoot: 'templates/',
-      processName: function (name) {
-        name = name.split('/').slice(1).join('/').replace(/\.hbs/, '');
-        return name;
-      }
-    })))
+gulp.task('templates', function(){
+  gulp.src(['./' + PORTAL_DIR + '/templates/*.hbs'])
+    .pipe(handlebars({
+      outputType: 'amd'
+     }))
     .pipe(concat('templates.js'))
-    .pipe(gulp.dest('builds'));
+    .pipe(gulp.dest(BUILD_DIR + DEST +'/js/'));
 });
  
 gulp.task('styles', function () {

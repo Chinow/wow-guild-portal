@@ -1,0 +1,15 @@
+  <script type="text/x-handlebars" data-template-name="photos">
+    <h2>Photos</h2>
+
+    <div class="row web-container">
+      <ul id="photos" class="thumbnails">
+        {{#each model}}
+          <li class="span4">
+            <span class="thumbnail">
+              <img {{bind-attr src="src"}} />
+            </span>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </script>
