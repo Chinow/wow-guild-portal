@@ -10,7 +10,7 @@ App.ApplicationController = Ember.Controller.extend({
       // Clear out any error messages.
       this.set('errorMessage', null);
 
-      $.post('/login', data).then(function(response) {
+      $.post('/api.php/login', data).then(function(response) {
 
       self.set('errorMessage', response.message);
         if (response.success) {
@@ -33,14 +33,14 @@ App.ApplicationController = Ember.Controller.extend({
     }
   },
   logout:function(){
-    $.get("/login/logout")
+    $.get("/api.php/login/logout")
     this.set('isLogged',false)
     this.transitionToRoute('/');
   },
   init: function() { 
     var self = this;
     $.ajax({
-      url: "/login/logged",
+      url: "/api.php/login/logged",
       dataType: 'json',
       async: false,
     }).then(function(response) {
