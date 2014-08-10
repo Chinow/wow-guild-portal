@@ -4,21 +4,23 @@ var minifyCSS  = require('gulp-minify-css');
 var browserify = require('browserify');
 var source     = require('vinyl-source-stream');
 var handlebars = require('gulp-ember-handlebars');
+var concat     = require('gulp-concat');
 
-var BUILD_DIR = 'dist';
-var DEST = '/laravel/public';
-var DEST_MIN = 'dist-min';
+
+var BUILD_DIR  = 'dist';
+var DEST       = '/laravel/public';
+var DEST_MIN   = 'dist-min';
 var PORTAL_DIR = 'portal';
-var REST_DIR = 'rest';
-var ALL_JS = '/js/**/*.js';
-var ALL_LESS = '/less/**/*.less';
-var ALL_TMPL = '/template/**/*.hbs';
-var VENDOR = '/vendors';
-var TO_COPY = [ PORTAL_DIR + '/index.html', 
-                PORTAL_DIR + '/favicon.ico', 
-                PORTAL_DIR + '/robots.txt',
-                PORTAL_DIR + '/images/**/*', 
-                PORTAL_DIR + '/fonts/*'];
+var REST_DIR   = 'rest';
+var ALL_JS     = '/js/**/*.js';
+var ALL_LESS   = '/less/**/*.less';
+var ALL_TMPL   = '/template/**/*.hbs';
+var VENDOR     = '/vendors';
+var TO_COPY    = [ PORTAL_DIR + '/index.html', 
+                   PORTAL_DIR + '/favicon.ico', 
+                   PORTAL_DIR + '/robots.txt',
+                   PORTAL_DIR + '/images/**/*', 
+                   PORTAL_DIR + '/fonts/*'];
 
 var TO_COPY_LARAVEL = [REST_DIR + '/laravel/**/*'];
 
@@ -94,7 +96,7 @@ gulp.task('app-scripts', function() {
 gulp.task('templates', function(){
   gulp.src(['./' + PORTAL_DIR + '/templates/*.hbs'])
     .pipe(handlebars({
-      outputType: 'amd'
+      outputType: 'browser'
      }))
     .pipe(concat('templates.js'))
     .pipe(gulp.dest(BUILD_DIR + DEST +'/js/'));
@@ -106,9 +108,13 @@ gulp.task('styles', function () {
     .pipe(gulp.dest('builds/css'));
 });
  
-gulp.task('default', ['styles', 'scripts'], function () { });
+gulp.task('default', ['build'], function () { });
 
-gulp.task('build', ['copy-laravel', 'copy', 'styles-min', 'vendors-scripts', 'app-scripts']);
+gulp.task('build', ['copy-laravel', 'copy', 'styles-min', 'vendors-scripts', 'app-scripts', 'templates']);
+
+gulp.task('scripts', ['app-scripts', 'templates']);
+
+gulp.task('styles', ['styles-min']);
  
 gulp.task('watch', function () {
   gulp.watch('**/*.js', ['scripts']);

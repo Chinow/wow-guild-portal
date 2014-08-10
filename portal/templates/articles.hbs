@@ -1,11 +1,9 @@
-  <script type="text/x-handlebars" data-template-name="articles">
-    <h2>Articles</h2>
+<h2>Articles</h2>
 
-    {{#each model}}
-      <article>
-        <h3>{{username}}</h3>
-        <p>Posted by {{author}}</p>
-        <p>{{body}}</p>
-      </article>
-    {{/each}}
-  </script>
+{{#each model}}
+  <article>
+    <h3>{{username}}</h3>
+    <p>Posted by {{author}}</p>
+    <p>{{body}}</p>
+  </article>
+{{/each}}
