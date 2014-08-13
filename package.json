@@ -30,7 +30,13 @@
     "gulp-less": "~1.3.2",
     "gulp-minify-css": "~0.3.7",
     "jquery": "~2.1.1",
-    "vinyl-source-stream": "~0.1.1"
+    "vinyl-source-stream": "~0.1.1",
+    "mocha": "~1.21.4",
+    "gulp-mocha-phantomjs": "~0.4.0",
+    "run-sequence": "~0.3.6",
+    "chai": "~1.9.1",
+    "sinon": "~1.10.3",
+    "sinon-chai": "~2.5.0"
   },
   "browser": {
     "bootstrap": "./bower_components/bootstrap/dist/js/bootstrap.js",

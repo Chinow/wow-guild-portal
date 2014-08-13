@@ -5,7 +5,8 @@ var browserify = require('browserify');
 var source     = require('vinyl-source-stream');
 var handlebars = require('gulp-ember-handlebars');
 var concat     = require('gulp-concat');
-
+var runSequence = require('run-sequence');
+var mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 var BUILD_DIR  = 'dist';
 var DEST       = '/laravel/public';
@@ -107,6 +108,29 @@ gulp.task('styles', function () {
     .pipe(myth())
     .pipe(gulp.dest('builds/css'));
 });
+
+gulp.task('copy-vendors-to-test',function(){
+    return gulp.src(BUILD_DIR + DEST + '/js/vendors.js')
+    .pipe(gulp.dest('./portal-test'));
+});
+
+gulp.task('test-scripts', function() {
+    return browserify({
+        entries: './portal-test/suite.js'
+    }).transform('browserify-shim')
+      .external(VENDORS_DEPS)
+      .bundle({ debug: true })
+      .on('error', handleError)
+      .pipe(source('browserified-suite.js'))
+      .pipe(gulp.dest('./portal-test'));
+});
+
+gulp.task('test-run', function() {
+    return gulp.src('portal-test/index.html')
+    .pipe(mochaPhantomJS({
+        reporter:'min'
+    }));
+});
  
 gulp.task('default', ['build'], function () { });
 
@@ -115,6 +139,10 @@ gulp.task('build', ['copy-laravel', 'copy', 'styles-min', 'vendors-scripts', 'ap
 gulp.task('scripts', ['app-scripts', 'templates']);
 
 gulp.task('styles', ['styles-min']);
+
+gulp.task('test', function(callback) {
+    runSequence('copy-vendors-to-test','test-scripts', 'test-run', callback);
+});
  
 gulp.task('watch', function () {
   gulp.watch('**/*.js', ['scripts']);
